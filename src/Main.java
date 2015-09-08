@@ -15,19 +15,38 @@ public class Main
     ExploreCoursesConnection connection = new ExploreCoursesConnection();
     //getFullCourses(connection);
     
-	String query = "CME 279";
-    getSpecificCourse(connection, query);
+	String query = "TAPS 103";
+	if(queryCourseSpace(connection, query) == 1) {
+		System.out.println("Full");
+	} else {
+		System.out.println("Empty");
+	}
   }
   
-  public static void getSpecificCourse(ExploreCoursesConnection connection, String query) throws IOException, JDOMException 
+  public static int queryCourseSpace(ExploreCoursesConnection connection, String query) throws IOException, JDOMException 
   {
 	  List<Course> matchingCourses = connection.getCoursesByQuery(query);
-	  for(Course c : matchingCourses) {
-		  if(query.equals(c.getSubjectCodePrefix() + " " + c.getSubjectCodeSuffix()))
-		  	System.out.println(c.getTitle());
-	  }
+	  for(Course cor : matchingCourses) {
+		  if(query.equals(cor.getSubjectCodePrefix() + " " + cor.getSubjectCodeSuffix())) {
+			System.out.println(cor.getSubjectCodePrefix()+cor.getSubjectCodeSuffix()+": "+cor.getTitle());
+          	Set<Section> sections =  cor.getSections();
+          	for(Section sec : sections) {
+  				System.out.println(sec.getComponent() + sec.getSectionNumber());
+      			if(!sec.getComponent().equals("DIS")) {
+      				if(sec.getCurrentClassSize() == sec.getMaxClassSize()) {
+      					return 1;
+          			} else {
+          				return 0;
+          			}
+          		}
+          	}
+
+		  }
+	  }  
 	  
-  }
+	  return 3;
+	  
+   }
   
   /** Prints a list of all full courses offered at Stanford in the current academic year **/
   public static void getFullCourses(ExploreCoursesConnection connection) throws IOException, JDOMException
@@ -41,11 +60,11 @@ public class Main
 	          			if(!sec.getComponent().equals("DIS")) {
 	          				System.out.println(c.getSubjectCodePrefix()+c.getSubjectCodeSuffix()+": "+c.getTitle());
 	          			}
-	          		}
-	          	}
-	          }
-	      }
-	  }	  
-  }
+	          		 }
+	          	 }
+	           }
+	        }
+	    }	  
+    }
 } 
 
