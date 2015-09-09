@@ -14,16 +14,16 @@ public class Main
   {
     ExploreCoursesConnection connection = new ExploreCoursesConnection();
     //getFullCourses(connection);
-    
-	String query = "TAPS 103";
+
+	String query = "TAPS 21";
 	if(queryCourseSpace(connection, query) == 1) {
 		System.out.println("Full");
 	} else {
 		System.out.println("Empty");
 	}
   }
-  
-  public static int queryCourseSpace(ExploreCoursesConnection connection, String query) throws IOException, JDOMException 
+
+  public static int queryCourseSpace(ExploreCoursesConnection connection, String query) throws IOException, JDOMException
   {
 	  List<Course> matchingCourses = connection.getCoursesByQuery(query);
 	  for(Course cor : matchingCourses) {
@@ -42,15 +42,15 @@ public class Main
           	}
 
 		  }
-	  }  
-	  
+	  }
+
 	  return 3;
-	  
+
    }
-  
+
   /** Prints a list of all full courses offered at Stanford in the current academic year **/
   public static void getFullCourses(ExploreCoursesConnection connection) throws IOException, JDOMException
-  {  
+  {
 	  for(School s : connection.getSchools()) {
 		  for(Department d : s.getDepartments()) {
 			  for(Course c : connection.getCoursesByQuery(d.getCode())) {
@@ -64,7 +64,6 @@ public class Main
 	          	 }
 	           }
 	        }
-	    }	  
+	    }
     }
-} 
-
+}
