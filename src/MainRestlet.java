@@ -15,7 +15,7 @@ public class MainRestlet extends Application {
 	public Restlet createInboundRoot() {
 		
 		Router router = new Router(getContext());
-		router.attach("/hello", DatabaseResource.class);
+		router.attach("/newalert/{alert}", DatabaseResource.class);
 		//router.attachDefault(DatabaseResource.class);
 		return router;
 	}

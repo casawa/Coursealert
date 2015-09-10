@@ -1,0 +1,52 @@
+body {
+  background-color: green;
+  background-size: 100%;
+  background-image: url("https://unsplash.com/photos/bLtr7QVf-3Q/download");
+}
+
+#title {
+  padding-top: 5%;
+  text-align: center;
+}
+
+#title h1 {
+  font-family: Montserrat, sans-serif;
+  color: black;
+  font-size: 350%;
+}
+
+#inputs {
+  text-align: center;
+}
+
+p {
+  font-family: Avenir, sans-serif;
+  color: black;
+}
+
+#about {
+  padding-left: 12%;
+  padding-right: 10%;
+}
+
+input {
+  height:30px;
+  font-size:14pt;
+  font-family: Lato, sans-serif;
+  font-weight: 200;
+  padding-left: 7px;
+}
+
+#class {
+  width: 90px;
+}
+
+#spacetype {
+  width: 150px;
+}
+
+input:focus {
+  background-color: #80CCE6;
+  color: white;
+  font-weight: 500;
+}
