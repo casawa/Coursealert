@@ -14,9 +14,21 @@
 		</div>
 		<div id = "inputs">
 			<form>
-				<input id = "email"> <input id = "class"> <input id = "spacetype">
-				 <a href = ""> <button id = "submit"> Submit </button> </a>
+				<input id = "email" placeholder = "example@stanford.edu">
+				 <input id = "class" placeholder = "TAPS 103">
+				<!--<div style = "display:inline;">
+					<input type = "radio"> bob <br> <input type = "radio"> bob
+				</div>
+				Notify When
+				<select id = "spacetype">
+					<option value = "classopen">  Class Opens </option>
+					<option value = "waitlistopen">  Waitlist Opens </option>
+				</select>-->
+			  <button id = "submit"> Submit </button>
 			</form>
+			<div id = "error">
+
+			</div>
 		</div>
 		<div id = "about">
 			 <p> Do you want to get into Social Dance? TAPS 103? A gym class? An introsem?
@@ -27,5 +39,7 @@
 		<div id = "bar">
 		</div>
 	</body>
+	<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src = "../js/index.js"> </script>
 
 </html>

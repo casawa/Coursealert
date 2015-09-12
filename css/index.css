@@ -31,14 +31,16 @@ p {
 
 input {
   height:30px;
+  line-height: 30px;
   font-size:14pt;
   font-family: Lato, sans-serif;
   font-weight: 200;
   padding-left: 7px;
+  background-color: white;
 }
 
 #class {
-  width: 90px;
+  width: 100px;
 }
 
 #spacetype {
@@ -61,19 +63,27 @@ input:focus {
   height: 10px;
 }
 
-
 #submit {
-  background-color: white;
+  background-color: #2952A3;
   border-color: #2952A3;
   height:36px;
   font-size:12pt;
+  color: white;
   font-family: Montserrat, sans-serif;
   padding: 6px;
   position: relative;
   top: -3px;
+
 }
 
 #submit:hover {
-  background-color: #2952A3;
+  background-color: white;
+  color: black;
+}
+
+#error {
+  background-color: red;
   color: white;
+  display: none;
+  font-family: Lato, sans-serif;
 }
