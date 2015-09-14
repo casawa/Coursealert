@@ -1,15 +1,15 @@
 function sumbit() {
+  var email = $('#email').val();
+  var className = $('#class').val();
+
   $.ajax({
-      url: '../cgi-bin/submit.php',
-      data: {"queryArg": queryString},
-      method: 'GET',
+      url: '../../cgi-bin/submit.php',
+      data: {"email": email, "class": className},
+      method: 'POST',
       cache: false,
       dataType: 'html',
       success: function(result) {
-        $('#dataTable').html(result);
-        hideCols();
-        $('#dataTable').append("<br>");
-        $("#physicalTable").tablesorter();
+         console.log(result);
       },
       error: function(jqXHR, textStatus, errorThrown) {
         if(jqXHR.status == '500') {
@@ -47,7 +47,7 @@ function isSecondPartNumber(className) {
       return false;
     }
   }
-  
+
   return true;
 }
 
@@ -92,8 +92,13 @@ function validInput() {
 
 $('#submit').click(function() {
   $('#error').hide();
+  $('#success').hide();
+
   if(validInput()) {
     //submit();
+    $('#success').html('Successfully created alert!');
+    console.log('huh');
+    $('#success').show();
   } else {
     $('#error').show();
   }

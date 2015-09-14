@@ -10,8 +10,10 @@ public class DatabaseResource extends ServerResource {
 		String[] params = request.split("~~");
 
 		if(params.length == 2) {
-			System.out.println(params[0] + " " + params[1]);
-			return params[0];
+			String result = database.insertAlert(params[0], params[1]);
+			if(result.equals("Success")) {
+				return "Inserted";
+			}
 		}
 		
 		return "Issue";

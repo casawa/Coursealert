@@ -48,7 +48,7 @@ input {
 }
 
 input:focus {
-  background-color: #80CCE6;
+  background-color: #B3E0F0;
   color: black;
   font-weight: 500;
 }
@@ -83,6 +83,13 @@ input:focus {
 
 #error {
   background-color: red;
+  color: white;
+  display: none;
+  font-family: Lato, sans-serif;
+}
+
+#success {
+  background-color: green;
   color: white;
   display: none;
   font-family: Lato, sans-serif;
