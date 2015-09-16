@@ -1,36 +1,35 @@
+package classQuerySys;
+
 import java.io.IOException;
 import java.util.*;
 import org.jdom2.JDOMException;
 
 import edu.stanford.services.explorecourses.Course;
 import edu.stanford.services.explorecourses.Section;
-import edu.stanford.services.explorecourses.Department;
-import edu.stanford.services.explorecourses.School;
 import edu.stanford.services.explorecourses.ExploreCoursesConnection;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Main
 {
   public static void main(String[] args) throws IOException, JDOMException
   {
+	  
     ExploreCoursesConnection connection = new ExploreCoursesConnection();
     HashMap<String, String> results = fetchAlerts();
     for(String classThing : results.keySet()) {
-    	
+    	String query = "";
+        int resultCode = queryCourseSpace(connection, query);
+    	if(resultCode == 1) {
+    		System.out.println("Full");
+    	} else if (resultCode == 2){
+    		System.out.println("Empty");
+    		//send email
+    	} else {
+    		System.out.println("No query results");
+    	}
     }
     
     //getFullCourses(connection);
-
-	String query = "TAPS 21";
-	if(queryCourseSpace(connection, query) == 1) {
-		System.out.println("Full");
-	} else {
-		System.out.println("Empty");
-	}
+	//String query = "TAPS 21";
   }
 
   public static int queryCourseSpace(ExploreCoursesConnection connection, String query) throws IOException, JDOMException
@@ -42,7 +41,7 @@ public class Main
           	Set<Section> sections =  cor.getSections();
           	for(Section sec : sections) {
   				System.out.println(sec.getComponent() + sec.getSectionNumber());
-      			if(!sec.getComponent().equals("DIS")) {
+      			if(!sec.getComponent().equals("DIS") && !sec.getComponent().equals("LEC")) {
       				if(sec.getCurrentClassSize() == sec.getMaxClassSize()) {
       					return 1;
           			} else {
@@ -54,32 +53,13 @@ public class Main
 		  }
 	  }
 
-	  return 3;
-
+	  return 2;
    }
   
   
   public static HashMap<String, String> fetchAlerts() {
-	  HashMap<String, String> results = new HashMap<String, String>();
-	  return results;
+	  DB_Querier dbQuerier = new DB_Querier();
+	  return dbQuerier.fetchAlerts();
   }
 
-  /** Prints a list of all full courses offered at Stanford in the current academic year 
-  public static void getFullCourses(ExploreCoursesConnection connection) throws IOException, JDOMException
-  {
-	  for(School s : connection.getSchools()) {
-		  for(Department d : s.getDepartments()) {
-			  for(Course c : connection.getCoursesByQuery(d.getCode())) {
-	          	Set<Section> sections =  c.getSections();
-	          	for(Section sec : sections) {
-	          		if(sec.getCurrentClassSize() == sec.getMaxClassSize()) {
-	          			if(!sec.getComponent().equals("DIS")) {
-	          				System.out.println(c.getSubjectCodePrefix()+c.getSubjectCodeSuffix()+": "+c.getTitle());
-	          			}
-	          		 }
-	          	 }
-	           }
-	        }
-	    }
-    }*/
 }
