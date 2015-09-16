@@ -2,56 +2,34 @@ package classQuerySys;
 
 //File Name SendEmail.java
 
-import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
+import com.sendgrid.*;
 
 public class SendEmail
 {
-public static void main(String [] args)
-{    
-   // Recipient's email ID needs to be mentioned.
-   String to = "abc@gmail.com";
-
-   // Sender's email ID needs to be mentioned
-   String from = "xyz@gmail.com";
-
-   // Assuming you are sending email from localhost
-   String host = "localhost";
-
-   // Get system properties
-   Properties properties = System.getProperties();
-
-   // Setup mail server
-   properties.setProperty("mail.smtp.host", host);
-
-   properties.put("mail.smtp.port", 2525);
-
-   // Get the default Session object.
-   Session session = Session.getInstance(properties);
-
-   try{
-      // Create a default MimeMessage object.
-      MimeMessage message = new MimeMessage(session);
-
-      // Set From: header field of the header.
-      message.setFrom(new InternetAddress(from));
-
-      // Set To: header field of the header.
-      message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-      // Set Subject: header field
-      message.setSubject("Subject");
-
-      // Now set the actual message
-      message.setText("This is actual message");
-
-      // Send message
-      Transport.send(message);
-      System.out.println("Sent message successfully....");
-   }catch (MessagingException mex) {
-      mex.printStackTrace();
-   }
-}
+	static final String SENDGRID_API_KEY = "";
+	static final String SENDER_EMAIL = "";
+	
+	SendGrid sendgrid = null;
+	public SendEmail() {
+	    sendgrid = new SendGrid(SENDGRID_API_KEY);
+	}
+	
+	public void sendNotification(String emailAddr, String className) {
+	    SendGrid.Email email = new SendGrid.Email();
+	    email.addTo(emailAddr);
+	    email.setFrom(SENDER_EMAIL);
+	    email.setSubject(className + " is now open");
+	    email.setText(className + " is now open for enrollment! Hurry up"
+	    		+ " before your spot is taken.\n Note you will not"
+	    		+ " get an e-mail the next time enrollment is open"
+	    		+ " to reduce spam. However, you can sign up once again"
+	    		+ " for an alert");
+	    
+	    try {
+	        SendGrid.Response response = sendgrid.send(email);
+	        System.out.println(response.getMessage());
+	    } catch (SendGridException e) {
+	        System.err.println(e);
+	    }	    
+	}
 }

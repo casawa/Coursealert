@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.HashMap;
 
 public class DB_Querier {
@@ -33,8 +34,10 @@ public class DB_Querier {
 			
 			try {
 				stmt = conn.createStatement();
-				stmt.execute(sqlStatement);
-				
+				ResultSet rset = stmt.executeQuery(sqlStatement);
+				while(rset.next()) {
+					results.put(rset.getString("class"), rset.getString("email"));
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}	
@@ -42,5 +45,4 @@ public class DB_Querier {
 
 		return results;
 	}
-
 }

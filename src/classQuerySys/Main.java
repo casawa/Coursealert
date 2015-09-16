@@ -12,25 +12,22 @@ public class Main
 {
   public static void main(String[] args) throws IOException, JDOMException
   {
-	  
+	
+	SendEmail sender = new SendEmail();
     ExploreCoursesConnection connection = new ExploreCoursesConnection();
     HashMap<String, String> results = fetchAlerts();
-    for(String classThing : results.keySet()) {
-    	String query = "";
-        int resultCode = queryCourseSpace(connection, query);
+    for(String className : results.keySet()) {
+        int resultCode = queryCourseSpace(connection, className);
     	if(resultCode == 1) {
     		System.out.println("Full");
     	} else if (resultCode == 2){
     		System.out.println("Empty");
-    		//send email
+    		sender.sendNotification(results.get(className), className);
     	} else {
     		System.out.println("No query results");
     	}
     }
-    
-    //getFullCourses(connection);
-	//String query = "TAPS 21";
-  }
+ }
 
   public static int queryCourseSpace(ExploreCoursesConnection connection, String query) throws IOException, JDOMException
   {
@@ -49,7 +46,6 @@ public class Main
           			}
           		}
           	}
-
 		  }
 	  }
 

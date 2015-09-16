@@ -1,4 +1,4 @@
-function sumbit() {
+function submit() {
   var email = $('#email').val();
   var className = $('#class').val();
 

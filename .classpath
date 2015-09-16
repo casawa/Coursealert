@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.29-bin.jar"/>
 	<classpathentry kind="lib" path="lib/org.restlet.jar"/>
+	<classpathentry kind="lib" path="lib/sendgrid-java.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
