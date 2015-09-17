@@ -97,7 +97,6 @@ $('#submit').click(function() {
   if(validInput()) {
     //submit();
     $('#success').html('Successfully created alert!');
-    console.log('huh');
     $('#success').show();
   } else {
     $('#error').show();

@@ -45,8 +45,8 @@ public class Main
 			} else {
 				System.out.println("No query results");
 			}
+		}
 	}
- }
 
   /* Method: queryCourseSpace
    * --------------------------
