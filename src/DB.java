@@ -1,4 +1,4 @@
-/* File: DB.java
+/* Class: DB
  * ---------------------
  * Handles inserting a new
  * alert into the database.
@@ -18,6 +18,7 @@ public class DB {
 	
 	public Connection conn = null;
 
+	//Initializes the DB object by connecting to the alerts database.
 	public DB(){
 		try {
 			Class.forName(JDBC_DRIVER).newInstance();
@@ -27,6 +28,10 @@ public class DB {
 		}
 	}
 	
+	/* Method: insertAlert
+	 * -----------------------------
+	 * Inserts an alert into the database (an email and className).
+	 */
 	public String insertAlert(String email, String className) {
 		if(this.conn != null) {
 			Statement stmt = null;

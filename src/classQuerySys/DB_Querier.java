@@ -1,3 +1,10 @@
+/* Class: DB_Querier
+ * ----------------------
+ * This class interfaces with the MySQL database
+ * in order to fetch alerts and also 
+ * delete alerts once they've been accounted for.
+ */
+
 package classQuerySys;
 
 import java.sql.Connection;
@@ -16,6 +23,7 @@ public class DB_Querier {
 	
 	public Connection conn = null;
 
+	//In initialization, connect to the database 
 	public DB_Querier(){
 		try {
 			Class.forName(JDBC_DRIVER).newInstance();
@@ -25,6 +33,13 @@ public class DB_Querier {
 		}
 	}
 	
+	/* Method: fetchAlerts
+	 * ---------------------
+	 * Fetches form the database existing alerts.
+	 * Returns the a hashmap mapping class name to 
+	 * email address of the person who created
+	 * the alert.
+	 */
 	public HashMap<String, String> fetchAlerts() {
 		HashMap<String, String> results = new HashMap<String, String>();
 
@@ -38,11 +53,25 @@ public class DB_Querier {
 				while(rset.next()) {
 					results.put(rset.getString("class"), rset.getString("email"));
 				}
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}	
 		}
 
 		return results;
+	}
+	
+	/* Method: deleteAddress
+	 * -------------------------
+	 * Delete an alert given an email address and class name.
+	 */
+	public void deleteAddress(String emailAddr, String className) {
+		
+		if(this.conn != null) {
+			Statement stmt = null;
+			String sqlStatement = "delete from alerts where email";
+		}
+
 	}
 }
