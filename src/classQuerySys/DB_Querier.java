@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
@@ -20,7 +21,7 @@ public class DB_Querier {
 	static final String DB_URL = "jdbc:mysql:// ";
 	static final String DB_USER = "";
 	static final String DB_PASS = "";
-	
+		
 	public Connection conn = null;
 
 	//In initialization, connect to the database 
@@ -69,9 +70,24 @@ public class DB_Querier {
 	public void deleteAddress(String emailAddr, String className) {
 		
 		if(this.conn != null) {
-			Statement stmt = null;
-			String sqlStatement = "delete from alerts where email";
+			PreparedStatement stmt = null;
+			String sqlStatement = "delete from alerts where email = ?"
+					+ " and className = ?";
+			try {
+				stmt = conn.prepareStatement(sqlStatement);
+				stmt.setString(1, emailAddr);
+				stmt.setString(2, className);
+				stmt.execute(sqlStatement);
+				conn.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
+	}
+	
+	//Close the connection
+	protected void finalize() throws Throwable {
+		conn.close();
 	}
 }

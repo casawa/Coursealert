@@ -50,4 +50,9 @@ public class DB {
 
 		return "Failed";
 	}
+	
+	//Close the connection
+	protected void finalize() throws Throwable {
+		conn.close();
+	}
 }

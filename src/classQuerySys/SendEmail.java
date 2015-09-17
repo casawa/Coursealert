@@ -14,6 +14,7 @@ public class SendEmail
 	static final String SENDGRID_API_KEY = "";
 	static final String SENDER_EMAIL = "";
 	static final String SENDER_NAME = "Coursealert";
+	static final String SUCCESS_RESP = "{\"message\":\"success\"}";
 	
 	SendGrid sendgrid = null;
 	public SendEmail() {
@@ -25,7 +26,7 @@ public class SendEmail
 	 * Given an email address and class name, sends a notification 
 	 * email that the given class is open.
 	 */
-	public void sendNotification(String emailAddr, String className) {
+	public String sendNotification(String emailAddr, String className) {
 	    SendGrid.Email email = new SendGrid.Email();
 	    email.addTo(emailAddr);
 	    email.setFromName(SENDER_NAME);
@@ -40,8 +41,12 @@ public class SendEmail
 	    try {
 	        SendGrid.Response response = sendgrid.send(email);
 	        System.out.println(response.getMessage());
+	        if(response.getMessage().equals(SUCCESS_RESP))
+	        	return "Email Sent";
 	    } catch (SendGridException e) {
 	        System.err.println(e);
 	    }	    
+	    
+	    return "Email Failed";
 	}
 }

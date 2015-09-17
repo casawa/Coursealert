@@ -9,6 +9,7 @@ package classQuerySys;
 
 import java.io.IOException;
 import java.util.*;
+
 import org.jdom2.JDOMException;
 
 import edu.stanford.services.explorecourses.Course;
@@ -17,23 +18,34 @@ import edu.stanford.services.explorecourses.ExploreCoursesConnection;
 
 public class Main
 {
-  public static void main(String[] args) throws IOException, JDOMException
-  {
-	
-	SendEmail sender = new SendEmail();
-    ExploreCoursesConnection connection = new ExploreCoursesConnection();
-    HashMap<String, String> results = fetchAlerts();
-    for(String className : results.keySet()) {
-        int resultCode = queryCourseSpace(connection, className);
-    	if(resultCode == 1) {
-    		System.out.println("Full");
-    	} else if (resultCode == 0){
-    		System.out.println("Not full");
-    		sender.sendNotification(results.get(className), className);
-    	} else {
-    		System.out.println("No query results");
-    	}
-    }
+	static final String EMAIL_SUCCESS = "Email Sent";
+
+	/* Method: main
+	 * ---------------
+	 * Goes through the alerts and finds which courses are not
+	 * full. Emails people if the course is not full, and,
+	 * if the email is successfully sent, deletes the alert.
+	 */
+	public static void main(String[] args) throws IOException, JDOMException
+	{	  
+		DB_Querier dbQuerier = new DB_Querier();
+		SendEmail sender = new SendEmail();
+		ExploreCoursesConnection connection = new ExploreCoursesConnection();
+    
+		HashMap<String, String> results = dbQuerier.fetchAlerts();
+		for(String className : results.keySet()) {
+			int resultCode = queryCourseSpace(connection, className);
+			if(resultCode == 1) {
+				System.out.println("Full");
+			} else if (resultCode == 0){
+				System.out.println("Not full");
+				String resp = sender.sendNotification(results.get(className), className);
+				if(resp.equals(EMAIL_SUCCESS))
+					dbQuerier.deleteAddress(results.get(className), className);
+			} else {
+				System.out.println("No query results");
+			}
+	}
  }
 
   /* Method: queryCourseSpace
@@ -69,15 +81,4 @@ public class Main
 	  return 2;
    }
   
-  /* Method: fetchAlerts()
-   * ---------------------------
-   * Create a DB_Querier object
-   * and use it to return a hashmap of alerts 
-   * mapping class name to email address.
-   */
-  public static HashMap<String, String> fetchAlerts() {
-	  DB_Querier dbQuerier = new DB_Querier();
-	  return dbQuerier.fetchAlerts();
-  }
-
 }
